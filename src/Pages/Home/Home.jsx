@@ -1,11 +1,15 @@
-import { useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { auth } from "../../db/firebase";
 
-function Home() {
+function Home({ user }) {
   const [isSignUpActive, setIsSignUpActive] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleFormChange = () => {
     setIsSignUpActive(!isSignUpActive);
@@ -13,7 +17,39 @@ function Home() {
 
   const handleSignUp = () => {
     if (!email || !password) return;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
+  const handleSignIn = () => {
+    if (!email || !password) return;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
+  const handleEmailChange = (event) => setEmail(event.target.value);
+  const handlePasswordChange = (event) => setPassword(event.target.value);
+
+  if (user) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <section className="w-full h-screen bg-slate-900 flex items-center justify-center">
@@ -29,6 +65,7 @@ function Home() {
           Email
         </label>
         <input
+          onChange={handleEmailChange}
           type="email"
           name="email"
           id="email"
@@ -38,6 +75,7 @@ function Home() {
           Password
         </label>
         <input
+          onChange={handlePasswordChange}
           type="password"
           name="password"
           id="password"

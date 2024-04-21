@@ -5,8 +5,8 @@ import {
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { auth } from "../../db/firebase";
-
-function Home({ user }) {
+/* eslint-disable react/prop-types */
+export default function Home({ user }) {
   const [isSignUpActive, setIsSignUpActive] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,7 +53,7 @@ function Home({ user }) {
 
   return (
     <section className="w-full h-screen bg-slate-900 flex items-center justify-center">
-      <form className="flex flex-col gap-2 bg-slate-50 p-5 rounded shadow-md">
+      <form className="flex flex-col gap-2 bg-slate-50 p-5 rounded shadow-md	">
         {isSignUpActive && (
           <h1 className="text-center text-slate-900 text-4xl mb-3">Sign Up</h1>
         )}
@@ -61,32 +61,27 @@ function Home({ user }) {
           <h1 className="text-center text-slate-900 text-4xl mb-3">Sign In</h1>
         )}
 
-        <label htmlFor="email" className="text-slate-900">
-          Email
-        </label>
+        <label className="text-slate-900">Email</label>
         <input
-          onChange={handleEmailChange}
           type="email"
+          onChange={handleEmailChange}
           name="email"
-          id="email"
-          className="h10 border border-slate-900 rounded p-4"
+          className="h-10 border border-slate-900 rounded p-4"
         />
-        <label htmlFor="password" className="text-slate-900">
-          Password
-        </label>
+
+        <label className="text-slate-900">Password</label>
         <input
-          onChange={handlePasswordChange}
           type="password"
+          onChange={handlePasswordChange}
           name="password"
-          id="password"
-          className="h10 border border-slate-900 rounded p-4"
+          className="h-10 border border-slate-900 rounded p-4"
         />
 
         {isSignUpActive && (
           <button
             onClick={handleSignUp}
             type="submit"
-            className="bg-slate-900 px-3 p-1 5 text-white my-3 rounded hover:bg-blue-700"
+            className="bg-slate-900 px-3 py-1.5 text-white my-3 rounded hover:bg-blue-700"
           >
             Sign Up
           </button>
@@ -95,7 +90,7 @@ function Home({ user }) {
           <button
             onClick={handleSignIn}
             type="submit"
-            className="bg-slate-900 px-3 p-1 5 text-white my-3 rounded hover:bg-blue-700"
+            className="bg-slate-900 px-3 py-1.5 text-white my-3  rounded hover:bg-blue-700"
           >
             Sign In
           </button>
@@ -103,8 +98,8 @@ function Home({ user }) {
 
         {isSignUpActive && (
           <a
-            href="#"
             onClick={handleFormChange}
+            href="#"
             className="text-red-500 hover:text-red-900"
           >
             Login
@@ -112,8 +107,8 @@ function Home({ user }) {
         )}
         {!isSignUpActive && (
           <a
-            href="#"
             onClick={handleFormChange}
+            href="#"
             className="text-red-500 hover:text-red-900"
           >
             Create an account
@@ -123,5 +118,3 @@ function Home({ user }) {
     </section>
   );
 }
-
-export default Home;
